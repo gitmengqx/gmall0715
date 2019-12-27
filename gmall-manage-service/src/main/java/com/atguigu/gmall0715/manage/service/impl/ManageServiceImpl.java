@@ -60,11 +60,23 @@ public class ManageServiceImpl implements ManageService {
     @Transactional
     public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {
         // baseAttrInfo   baseAttrValue
-        // 直接保存平台属性
-        baseAttrInfoMapper.insertSelective(baseAttrInfo);
+        // 保存| 修改
 
-        // int i = 1/0;
+        if (baseAttrInfo.getId()!=null && baseAttrInfo.getId().length()>0){
+            // 修改：
+            baseAttrInfoMapper.updateByPrimaryKeySelective(baseAttrInfo);
+        }else {
+            // 直接保存平台属性
+            baseAttrInfoMapper.insertSelective(baseAttrInfo);
+        }
 
+        // baseAttrValue 修改：
+        // 先将原有的数据删除，然后再新增！
+        BaseAttrValue baseAttrValueDel = new BaseAttrValue();
+        // delete from baseAttrValue where attrId = baseAttrInfo.getId();
+        baseAttrValueDel.setAttrId(baseAttrInfo.getId());
+        baseAttrValueMapper.delete(baseAttrValueDel);
+        //         int i = 1/0;
         // 保存平台属性值
         List<BaseAttrValue> attrValueList = baseAttrInfo.getAttrValueList();
         // 判断集合不为空！
@@ -76,5 +88,22 @@ public class ManageServiceImpl implements ManageService {
                 baseAttrValueMapper.insertSelective(baseAttrValue);
             }
         }
+    }
+
+    @Override
+    public List<BaseAttrValue> getAttrValueList(String attrId) {
+        // select * from baseAttrValue where attrId = ?
+        BaseAttrValue baseAttrValue = new BaseAttrValue();
+        baseAttrValue.setAttrId(attrId);
+        return baseAttrValueMapper.select(baseAttrValue);
+    }
+
+    @Override
+    public BaseAttrInfo getBaseAttrInfo(String attrId) {
+        //  select * from baseAttrInfo where id = attrId
+        BaseAttrInfo baseAttrInfo = baseAttrInfoMapper.selectByPrimaryKey(attrId);
+        // 查询平台属性值集合
+        baseAttrInfo.setAttrValueList(getAttrValueList(attrId));
+        return baseAttrInfo;
     }
 }

@@ -1,10 +1,7 @@
 package com.atguigu.gmall0715.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.gmall0715.bean.BaseAttrInfo;
-import com.atguigu.gmall0715.bean.BaseCatalog1;
-import com.atguigu.gmall0715.bean.BaseCatalog2;
-import com.atguigu.gmall0715.bean.BaseCatalog3;
+import com.atguigu.gmall0715.bean.*;
 import com.atguigu.gmall0715.service.ManageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +47,30 @@ public class ManageController {
 
     // http://localhost:8082/saveAttrInfo
     // 必须接收前台的数据
+    // 页面传递数据是json ，后面接收对象为java的Object 需要数据类型转换 json --- Object
+    // @RequestBody json --- Object  @ResponseBody Object -- Json
     @RequestMapping("saveAttrInfo")
-    public void saveAttrInfo(BaseAttrInfo baseAttrInfo){
+    public void saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
         // 调用服务层：
         manageService.saveAttrInfo(baseAttrInfo);
+    }
+
+    // http://localhost:8082/getAttrValueList?attrId=102
+    @RequestMapping("getAttrValueList")
+    public List<BaseAttrValue> getAttrValueList(String attrId){
+        // select * from baseAttrValue where attrId = ?
+        // 功能来讲：
+        // return manageService.getAttrValueList(attrId);
+        // 业务来讲：先查询baseAttrInfo
+        // select * from baseAttrInfo where id = attrId
+        BaseAttrInfo baseAttrInfo = manageService.getBaseAttrInfo(attrId);
+//        if (baseAttrInfo==null){
+//            return null;
+//        }
+        return baseAttrInfo.getAttrValueList();
+
 
     }
+
 
 }

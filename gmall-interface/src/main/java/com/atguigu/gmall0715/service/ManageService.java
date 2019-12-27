@@ -1,9 +1,6 @@
 package com.atguigu.gmall0715.service;
 
-import com.atguigu.gmall0715.bean.BaseAttrInfo;
-import com.atguigu.gmall0715.bean.BaseCatalog1;
-import com.atguigu.gmall0715.bean.BaseCatalog2;
-import com.atguigu.gmall0715.bean.BaseCatalog3;
+import com.atguigu.gmall0715.bean.*;
 
 import java.util.List;
 
@@ -47,4 +44,18 @@ public interface ManageService {
      * @param baseAttrInfo
      */
     void saveAttrInfo(BaseAttrInfo baseAttrInfo);
+
+    /**
+     * 根据attrId 回显数据
+     * @param attrId
+     * @return
+     */
+    List<BaseAttrValue> getAttrValueList(String attrId);
+
+    /**
+     * 通过attrId 查询baseAttrInfo
+     * @param attrId
+     * @return
+     */
+    BaseAttrInfo getBaseAttrInfo(String attrId);
 }
