@@ -58,4 +58,23 @@ public interface ManageService {
      * @return
      */
     BaseAttrInfo getBaseAttrInfo(String attrId);
+
+    /**
+     * 通过三级分类Id 查询
+     * @param catalog3Id
+     * @return
+     */
+    List<SpuInfo> getSpuInfoList(String catalog3Id);
+
+    /**
+     * 查询所有的销售属性
+     * @return
+     */
+    List<BaseSaleAttr> getBaseSaleAttrList();
+
+    /**
+     * 保存spuInfo
+     * @param spuInfo
+     */
+    void saveSpuInfo(SpuInfo spuInfo);
 }
