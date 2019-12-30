@@ -3,8 +3,13 @@ package com.atguigu.gmall0715.bean;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.sound.midi.Soundbank;
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 public class BaseAttrInfo implements Serializable {
